@@ -1,0 +1,125 @@
+{% extends 'student/base.html' %}
+
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'student\detail.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'student\detail.js' %}"></script>
+{% endblock %}
+
+{% block title%}{{ stu }}{% endblock %}
+
+{% block activestudent %}active{% endblock %}
+
+{% block body %}
+<body>
+<div>
+	<div class="m-4">
+		<h1>{{ stu }}</h1>
+	</div>
+	<div class="wrapper">
+		<div class="left-col">
+			<ul class="side-menu-items">
+				<li class="sliding-u-l-r-l"><a href="#Information">General Information</a></li>
+				{% if guardian %}
+				<li class="sliding-u-l-r-l"><a href="#Contact">Emergency Contact</a></li>
+				{% endif %}
+				<li class="sliding-u-l-r-l"><a href="#Attendance">Attendance</a></li>
+				<li class="sliding-u-l-r-l"><a href="#Progress">Progress</a></li>
+				<li class="sliding-u-l-r-l"><a href="#Fees">Fees</a></li>
+			</ul>
+		</div>
+		<div class="main-col">
+			<div class="" id="Information">
+				<h1>General Information</h1>
+				<div class="data">
+					<div class="label">Address</div> : <div class="field">{{ stu.address }}</div>
+					<br><div class="label">City</div> : <div class="field">{{ stu.city }}</div>
+					<br><div class="label">Date of Birth</div> : <div class="field">{{ stu.date_of_birth }}</div>
+					<br><div class="label">Date of Joining</div> : <div class="field">{{ stu.date_of_joining }}</div>
+					<br><div class="label">Phone Number</div> : <div class="field">{{ stu.phone_number }}</div>
+					<br><div class="label">Rank</div> : <div class="field">{{ stu.rank }}</div>
+				</div>
+			</div>
+			{% if guardian %}
+			<div class="" id="Contact">
+				<h1>Emergency Content</h1>
+				<div class="data">
+					<div class="label">Name</div> : <div class="field">{{ guardian}}</div>
+					<br><div class="label">Address</div> : <div class="field">{{ guardian.Address }}</div>
+					<br><div class="label">City</div> : <div class="field">{{ guardian.city }}</div>
+					<br><div class="label">Phone Number</div> : <div class="field">{{ guardian.phone_number }}</div>
+					<br><div class="label">Relation</div> : <div class="field">{{ guardian.relation }}</div>
+				</div>
+			</div>
+			{% endif %}
+			<div class="" id="Attendance">
+				<h1>Attendance</h1>
+				<table class="table table-responsive-sm table-striped table-condensed sortable">
+                        <thead>
+                            <tr>
+                                <th align="center">Month</th>
+                                <th align="center">Year</th>
+                                <th align="center">Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for attend in attendance %}
+                                <tr>
+                                    <td>{{ attend.attendance_month }}</td>
+                                    <td>{{ attend.attendance_year }}</td>
+                                    <td>{{ attend.attendance_count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+			</div>
+			<div class="" id="Progress">
+				<h1>Progress</h1>
+				<table class="table table-responsive-sm table-striped table-condensed sortable">
+                        <thead>
+                            <tr>
+                                <th align="center">From Belt</th>
+                                <th align="center">To Belt</th>
+                                <th align="center">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pro in progress %}
+                                <tr>
+                                    <td>{{ pro.progress_belt_from }}</td>
+                                    <td>{{ pro.progress_belt_to }}</td>
+                                    <td>{{ pro.progress_date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+			</div>
+			<div class="" id="Fees">
+				<h1>Fees</h1>
+				<table class="table table-responsive-sm table-striped table-condensed sortable">
+                        <thead>
+                            <tr>
+                                <th align="center">Payment Type</th>
+                                <th align="center">Payment Date</th>
+                                <th align="center">Payment Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for f in fee %}
+                                <tr>
+                                    <td>{{ f.fee_name }}</td>
+                                    <td>{{ f.fee_date }}</td>
+                                    <td>{{ f.fee_amount }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+			</div>
+		</div>
+	</div>
+</body>
+{% endblock %}

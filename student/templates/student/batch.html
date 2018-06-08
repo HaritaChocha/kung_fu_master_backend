@@ -1,0 +1,34 @@
+{% extends 'student/base.html' %}
+
+{% load staticfiles%}
+
+{% block css %}
+<!--<link rel="stylesheet" href="{% static 'student\batch.css' %}">-->
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'student\batch.js' %}"></script>
+{% endblock %}
+
+{% block title%}Batch{% endblock %}
+
+{% block activebatches %}active{% endblock %}
+
+{% block body %}
+    <div class="row">
+      {% for batch in batches %}
+      <div class="col-sm-6 col-lg-3 col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ batch.batch_day }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ batch.level.level_name }}</h6>
+            <div class="card-text label">Batch Start Time</div> : <div class="field">{{ batch.batch_start_time }}</div>
+					<br><div class="label">Batch End Time</div> : <div class="field">{{ batch.batch_end_time }}</div>
+            <a href="{% url 'student:batch_student' batch.pk %}" class="btn btn-dark">Students</a>
+            <a href="{% url 'student:attendance' batch.pk %}" class="btn btn-dark">Add Attendance</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+{% endblock %}

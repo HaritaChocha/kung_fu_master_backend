@@ -1,0 +1,43 @@
+{% extends 'student/base.html' %}
+
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'student\finance.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="#"></script>
+{% endblock %}
+
+{% block title%}Finance{% endblock %}
+
+{% block activefinance %}active{% endblock %}
+
+{% block body%}
+<body>
+    <div>
+        <div class="m-4">
+            <h1>Finance</h1>
+        </div>
+        <div class="wrapper">
+            <div class="left-col">
+                <ul class="side-menu-items">
+                    <li class="sliding-u-l-r-l"><a href="#Information">Total Payments</a></li>
+                    <li class="sliding-u-l-r-l"><a href="#Attendance">Pending Payments</a></li>
+                    <li class="sliding-u-l-r-l"><a href="#Progress">Sales Report</a></li>
+                </ul>
+            </div>
+            <div class="main-col">
+                <div class="" id="Information">
+                    <h1>Total Payment</h1>
+                    <div class="data">
+                        <!-- <div class="label">Address</div> : <div class="field">{{ stu.address }}</div>
+                        <br><div class="label">City</div> : <div class="field">{{ stu.city }}</div>
+                        <br><div class="label">Date of Birth</div> : <div class="field">{{ stu.date_of_birth }}</div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock %}

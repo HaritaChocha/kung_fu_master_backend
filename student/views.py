@@ -86,5 +86,5 @@ def StudentAddAttendance(request, pk):
 
 # Finance Page
 def finance(request):
-    pass
-    
+    fee = Fee.objects.all()
+    return render(request, 'student/finance.html', { 'fee': fee })

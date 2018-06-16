@@ -1,18 +1,18 @@
-{% extends 'student/base.html' %}
+{% extends 'student/base.html' %} 
 
-{% load staticfiles %}
+{% load staticfiles %} 
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'student\finance.css' %}">
-{% endblock %}
+<link rel="stylesheet" href="{% static 'student\finance.css' %}"> 
+{% endblock %} 
 
 {% block javascript %}
 <script src="#"></script>
-{% endblock %}
+{% endblock %} 
 
-{% block title%}Finance{% endblock %}
+{% block title%}Finance{% endblock %} 
 
-{% block activefinance %}active{% endblock %}
+{% block activefinance %}active{% endblock %} 
 
 {% block body%}
 <body>
@@ -23,21 +23,43 @@
         <div class="wrapper">
             <div class="left-col">
                 <ul class="side-menu-items">
-                    <li class="sliding-u-l-r-l"><a href="#Information">Total Payments</a></li>
-                    <li class="sliding-u-l-r-l"><a href="#Attendance">Pending Payments</a></li>
-                    <li class="sliding-u-l-r-l"><a href="#Progress">Sales Report</a></li>
+                    <li class="sliding-u-l-r-l">
+                        <a href="#Information">Total Payments</a>
+                    </li>
+                    <li class="sliding-u-l-r-l">
+                        <a href="#Attendance">Pending Payments</a>
+                    </li>
+                    <li class="sliding-u-l-r-l">
+                        <a href="#Progress">Sales Report</a>
+                    </li>
                 </ul>
             </div>
             <div class="main-col">
-                <div class="" id="Information">
-                    <h1>Total Payment</h1>
-                    <div class="data">
-                        <!-- <div class="label">Address</div> : <div class="field">{{ stu.address }}</div>
-                        <br><div class="label">City</div> : <div class="field">{{ stu.city }}</div>
-                        <br><div class="label">Date of Birth</div> : <div class="field">{{ stu.date_of_birth }}</div> -->
-                    </div>
+                <div class="" id="Total_Payment">
+                    <h1>All Payments</h1>
+                    <table class="table table-responsive-sm table-striped table-condensed sortable">
+                        <thead>
+                            <tr>
+                                <th align="center">Student</th>
+                                <th align="center">Fee Type</th>
+                                <th align="center">Fee Date</th>
+                                <th align="center">Total Amount($)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fee in all_fees %}
+                            <tr>
+                                <td>{{ fee.student }}</td>
+                                <td>{{ fee.fee_name }}</td>
+                                <td>{{ fee.fee_date }}</td>
+                                <td>{{ fee.fee_amount }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 {% endblock %}

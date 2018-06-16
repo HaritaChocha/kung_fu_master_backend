@@ -124,6 +124,9 @@ class Student(models.Model):
         return self.first_name +" " + self.last_name
 
 class Fee(models.Model):
+
+    DUE_DAY = 5
+
     fee_name = models.CharField(max_length=50)
     fee_date = models.DateField(default=timezone.now)
     fee_amount = models.IntegerField()

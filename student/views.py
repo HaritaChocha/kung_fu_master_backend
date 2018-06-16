@@ -86,5 +86,5 @@ def StudentAddAttendance(request, pk):
 
 # Finance Page
 def finance(request):
-    fee = Fee.objects.all()
-    return render(request, 'student/finance.html', { 'fee': fee })
+    all_fees = Fee.objects.all().order_by('student')
+    return render(request, 'student/finance.html', {'all_fees': all_fees})

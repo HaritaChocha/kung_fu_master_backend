@@ -111,25 +111,23 @@
 							</div>
 							<div class="card-body">
 								<table class="table table-responsive-sm table-striped table-condensed sortable">
-									{% if attend %}
+									{% if attendance %}
 									<thead>
 										<tr>
-											<th align="center">Month</th>
-											<th align="center">Year</th>
+											<th align="center">Date</th>
 											<th align="center">Count</th>
 										</tr>
 									</thead>
 									<tbody>
 										{% for attend in attendance %}
 										<tr>
-											<td>{{ attend.attendance_month }}</td>
-											<td>{{ attend.attendance_year }}</td>
+											<td>{{ attend.attendance_date }}</td>
 											<td>{{ attend.attendance_count }}</td>
 										</tr>
 										{% endfor %}
 									</tbody>
 									{% else %}
-									<p> There is no Attendance Added. Please <a href="#">Cick here</a> to add </p>
+									<p> There is no Attendance Added. Please <a href="{% url 'student:attend' %}">Cick here</a> to add </p>
 									{% endif%}
 								</table>
 							</div>
@@ -193,7 +191,7 @@
 										{% endfor %}
 									</tbody>
 									{% else %}
-									<p> There is no Fees Added. Please <a href="#">Cick here</a> to add </p>
+									<p> There is no Fees Added. Please <a href="{% url 'student:finance' %}">Cick here</a> to add </p>
 									{% endif%}
 								</table>
 							</div>

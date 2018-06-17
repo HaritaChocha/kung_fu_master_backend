@@ -90,13 +90,6 @@ class GuardianCreate(CreateView):
     fields = ['first_name', 'last_name', 'address', 'city', 'phone_number', 'relation']
 
 #Batch Information Pages
-# def batch(request):
-#     batches = Batch.objects.all()
-#     context = {
-#         'batches': batches,
-#         }
-#     return render(request, 'student/batch.html', context)
-
 class BatchIndexView(generic.ListView):
     template_name = 'student/batch.html'
 
@@ -125,25 +118,28 @@ def batchstudent(request, pk):
     for enroll in enrolls:
         students.append(enroll.student)
     return render(request, 'student/student.html', { 'object_list': students })
-    
-# Add Attendance
-def StudentAddAttendance(request, pk):
-    enrolls = Enrollment.objects.filter(batch=pk)
-    student_id = []
-    flag = 0
-    for enroll in enrolls:
-        student_id.append(enroll.student.pk)
-    for id in student_id:
-        attend = Attendance.objects.filter(student=id).filter(attendance_month=datetime.today().strftime('%B')).filter(attendance_year = datetime.today().strftime('%Y'))
-        if attend:
-            attend.attendance_count += 1
-            attend.save()
-            flag = 1
-        else:
-            new_attendance = Attendance(attendance_month = datetime.today().strftime('%B'), attendance_year = datetime.today().strftime('%Y'), attendance_count = 1)
-            new_attendance.save()
-            flag = 1
-    return render(request, reverse_lazy('student:batch'), {'count': len(student_id)})
+
+# Attendance Page
+class AttendanceIndexView(generic.ListView):
+    template_name = 'student/attend.html'
+
+    def get_queryset(self):
+        return Attendance.objects.all()
+
+class AttendanceCreate(CreateView):
+    model = Attendance
+    fields = ['student', 'attendance_date', 'attendance_count']
+
+class AttendanceUpdate(UpdateView):
+    model = Attendance
+    fields = ['student', 'attendance_date', 'attendance_count']
+
+class AttendanceDelete(DeleteView):
+    model = Attendance
+    success_url = reverse_lazy('student:attend')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
 # Finance Page
 class FinanceIndexView(generic.ListView):
@@ -158,8 +154,7 @@ class FinanceCreate(CreateView):
 
 class FinanceUpdate(UpdateView):
     model = Fee
-    fields = ['fee_name', 'fee_date', 'fee_amount', 'student']
-
+    fields = ['fee_name', 'fee_date', 'fee_amount']
 
 class FinanceDelete(DeleteView):
     model = Fee
@@ -167,3 +162,6 @@ class FinanceDelete(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
+
+def monthly_report(request):
+    pass

@@ -27,8 +27,8 @@
                 <a class="nav-item nav-link {% block activeinstructor %}{% endblock %}" href="{% url 'student:instructor' %}">Instructor</a>
                 <a class="nav-item nav-link {% block activestudent %}{% endblock %}" href="{% url 'student:student' %}">Student</a>
                 <a class="nav-item nav-link {% block activebatches %}{% endblock %}" href="{% url 'student:batch' %}">Batches</a>
+                <a class="nav-item nav-link {% block activeattend %}{% endblock %}" href="{% url 'student:attend' %}">Attendance</a>
                 <a class="nav-item nav-link {% block activefinance %}{% endblock %}" href="{% url 'student:finance' %}">Finance</a>
-                <a class="nav-item nav-link {% block activereports %}{% endblock %}" href="#">Reports</a>
             </div>
         </div>
     </nav>

@@ -1,0 +1,49 @@
+{% extends 'student/base.html' %}
+{% load staticfiles%}
+{% block css %}
+<link rel="stylesheet" href="{% static 'student\student.css' %}">
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'student/student.js' %}"></script>
+{% endblock %}
+
+{% block title%}Attendance{% endblock %}
+{% block activeattend %}active{% endblock %}
+
+{% block body %}
+<div class="jumbotron bg-light">
+    <div class="row">
+        <div class="col col-lg-12">
+            <a class="btn btn-dark" href="{% url 'student:attend-add' %}" role="button">Add Attendance</a>
+            <div style="margin-top:1em" class="card">
+                <div class="card-header text-dark table-heading">Attendance</div>
+                <div class="card-body panel-full">
+                    <table class="table table-responsive-sm table-striped table-condensed sortable">
+                        <thead>
+                            <tr>
+                                <th align="center">Student</th>
+                                <th align="center">Attendance Date</th>
+                                <th align="center">Attendance Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for attend in object_list %}
+                            <tr>
+                                <td>{{ attend.student }}</td>
+                                <td>{{ attend.attendance_date }}</td>
+                                <td>{{ attend.attendance_count }}</td>
+                                <td style="padding: 0px">
+                                    <a class="btn btn-dark click float-right" href="{% url 'student:attend-update' attend.pk %}" role="button">Update</a>
+                                    <a class="btn btn-dark click float-right" href="{% url 'student:attend-delete' attend.pk %}" role="button">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

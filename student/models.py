@@ -147,13 +147,15 @@ class Progress(models.Model):
         return self.progress_belt_from + "-" + self.progress_belt_to
 
 class Attendance(models.Model):
-    attendance_month = models.CharField(max_length=20, default=datetime.today().strftime('%B'))
-    attendance_year = models.CharField(max_length=20, default=datetime.today().strftime('%Y'))
-    attendance_count = models.IntegerField(default=0)
+    attendance_date = models.DateField(max_length=20, default=datetime.today())
+    attendance_count = models.IntegerField(default=1)
     student = models.ForeignKey(Student,null=True, blank=True, on_delete=models.CASCADE, related_name='attendances')
 
     def __str__(self):
         return str(self.attendance_count)
+
+    def get_absolute_url(self):
+        return reverse('student:attend')
 
 class Enrollment(models.Model):
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE, related_name='batches', default=1)

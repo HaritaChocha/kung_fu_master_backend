@@ -24,11 +24,17 @@ urlpatterns = [
     path('batch/add', views.BatchCreate.as_view(), name='batch-add'),
     path('batch/update/<pk>', views.BatchUpdate.as_view(), name='batch-update'),
     path('batch/delete/<pk>', views.BatchDelete.as_view(), name='batch-delete'),
-    # path('batch/<pk>/attendance', views.StudentAddAttendance, name='attendance'),
+
+    # Attendance Pages
+    path('attend/', views.AttendanceIndexView.as_view(), name='attend'),
+    path('attend/add', views.AttendanceCreate.as_view(), name='attend-add'),
+    path('attend/update/<pk>', views.AttendanceUpdate.as_view(), name='attend-update'),
+    path('attend/delete/<pk>', views.AttendanceDelete.as_view(), name='attend-delete'),
 
     # Finance Pages
     path('finance/', views.FinanceIndexView.as_view(), name='finance'),
-    path('batch/add', views.FinanceCreate.as_view(), name='finance-add'),
-    path('batch/update/<pk>', views.FinanceUpdate.as_view(), name='finance-update'),
-    path('batch/delete/<pk>', views.FinanceDelete.as_view(), name='finance-delete'),
+    path('finance/add', views.FinanceCreate.as_view(), name='finance-add'),
+    path('finance/update/<pk>', views.FinanceUpdate.as_view(), name='finance-update'),
+    path('finance/delete/<pk>', views.FinanceDelete.as_view(), name='finance-delete'),
+
 ]

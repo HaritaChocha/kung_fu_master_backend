@@ -5,9 +5,9 @@
 
 <body>
 	<div class="container-fluid">
-		<!-- <div class="m-4">
+		<div class="m-4">
 			<h1>{{ stu }}</h1>
-		</div> -->
+		</div>
 		<div class="row margin-top-20">
 			<div class="col-md-2">
 				<ul class="side-menu-items">
@@ -42,33 +42,22 @@
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item">
 										<span style="font-weight:bold">Address</span>: {{ stu.address }}</li>
-									<li class="list-group-item">Cras justo odio</li>
-									<li class="list-group-item">Cras justo odio</li>
-									<li class="list-group-item">Cras justo odio</li>
-									<li class="list-group-item">Cras justo odio</li>
-									<li class="list-group-item">Cras justo odio</li>
-									<li class="list-group-item">Cras justo odio</li>
-									<li class="list-group-item">Cras justo odio</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">City</span>: {{ stu.city }}</li>
+									</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">Date of Birth</span>: {{ stu.date_of_birth }}</li>
+									</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">Date of Joining</span>: {{ stu.date_of_joining }}</li>
+									</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">Phone Number</span>:{{ stu.phone_number }}</li>
+									</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">Rank</span>: {{ stu.rank }}</li>
+									</li>
 								</ul>
-								<div class="data">
-									<div class="label">Address</div> :
-									<div class="field"></div>
-									<br>
-									<div class="label">City</div> :
-									<div class="field">{{ stu.city }}</div>
-									<br>
-									<div class="label">Date of Birth</div> :
-									<div class="field">{{ stu.date_of_birth }}</div>
-									<br>
-									<div class="label">Date of Joining</div> :
-									<div class="field">{{ stu.date_of_joining }}</div>
-									<br>
-									<div class="label">Phone Number</div> :
-									<div class="field">{{ stu.phone_number }}</div>
-									<br>
-									<div class="label">Rank</div> :
-									<div class="field">{{ stu.rank }}</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -76,25 +65,26 @@
 					<div class="col-md-6" id="Contact">
 						<div class="card">
 							<div class="card-header">
-								Emergency Content
+								<i class="fas fa-address-card"></i>
+								Emergency Contact
 							</div>
 							<div class="card-body">
-								<div class="data">
-									<div class="label">Name</div> :
-									<div class="field">{{ guardian}}</div>
-									<br>
-									<div class="label">Address</div> :
-									<div class="field">{{ guardian.Address }}</div>
-									<br>
-									<div class="label">City</div> :
-									<div class="field">{{ guardian.city }}</div>
-									<br>
-									<div class="label">Phone Number</div> :
-									<div class="field">{{ guardian.phone_number }}</div>
-									<br>
-									<div class="label">Relation</div> :
-									<div class="field">{{ guardian.relation }}</div>
-								</div>
+								<ul class="list-group list-group-flush">
+									<li class="list-group-item">
+										<span style="font-weight:bold">Name</span>: {{ guardian }}</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">Address</span>: {{ guardian.address }}</li>
+									</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">City</span>: {{ guardian.city }}</li>
+									</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">Phone Number</span>: {{ guardian.phone_number }}</li>
+									</li>
+									<li class="list-group-item">
+										<span style="font-weight:bold">Relation</span>:{{ guardian.relation }}</li>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -102,6 +92,7 @@
 					<div class="col-md-12 margin-top-20" id="Attendance">
 						<div class="card">
 							<div class="card-header">
+								<i class="fas fa-calendar-alt"></i>
 								Attendance
 							</div>
 							<div class="card-body">
@@ -126,47 +117,61 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12" id="Progress">
-						<h1>Progress</h1>
-						<table class="table table-responsive-sm table-striped table-condensed sortable">
-							<thead>
-								<tr>
-									<th align="center">From Belt</th>
-									<th align="center">To Belt</th>
-									<th align="center">Date</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for pro in progress %}
-								<tr>
-									<td>{{ pro.progress_belt_from }}</td>
-									<td>{{ pro.progress_belt_to }}</td>
-									<td>{{ pro.progress_date }}</td>
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
+					<div class="col-md-12 margin-top-20" id="Progress">
+						<div class="card">
+							<div class="card-header">
+								<i class="fas fa-tasks"></i>
+								Progress
+							</div>
+							<div class="card-body">
+								<table class="table table-responsive-sm table-striped table-condensed sortable">
+									<thead>
+										<tr>
+											<th align="center">From Belt</th>
+											<th align="center">To Belt</th>
+											<th align="center">Date</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for pro in progress %}
+										<tr>
+											<td>{{ pro.progress_belt_from }}</td>
+											<td>{{ pro.progress_belt_to }}</td>
+											<td>{{ pro.progress_date }}</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-12" id="Fees">
-						<h1>Fees</h1>
-						<table class="table table-responsive-sm table-striped table-condensed sortable">
-							<thead>
-								<tr>
-									<th align="center">Payment Type</th>
-									<th align="center">Payment Date</th>
-									<th align="center">Payment Amount</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for f in fee %}
-								<tr>
-									<td>{{ f.fee_name }}</td>
-									<td>{{ f.fee_date }}</td>
-									<td>{{ f.fee_amount }}</td>
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
+					<div class="col-md-12 margin-top-20" id="Fees">
+						<div class="card">
+							<div class="card-header">
+								<i class="fas fa-money-check-alt"></i>
+								Fees
+							</div>
+							<div class="card-body">
+								<table class="table table-responsive-sm table-striped table-condensed sortable">
+									<thead>
+										<tr>
+											<th align="center">Payment Type</th>
+											<th align="center">Payment Date</th>
+											<th align="center">Payment Amount</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for f in fee %}
+										<tr>
+											<td>{{ f.fee_name }}</td>
+											<td>{{ f.fee_date }}</td>
+											<td>{{ f.fee_amount }}</td>
+										</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -1,21 +1,8 @@
-{% extends 'student/base.html' %}
-
-{% load staticfiles%}
-
-{% block css %}
-<link rel="stylesheet" href="{% static 'student\student.css' %}">
-{% endblock %}
-
-{% block javascript %}
+{% extends 'student/base.html' %} {% load staticfiles%} {% block css %}
+<link rel="stylesheet" href="{% static 'student\student.css' %}"> {% endblock %} {% block javascript %}
 <script src="{% static 'student/student.js' %}"></script>
-{% endblock %}
-
-{% block title%}Students{% endblock %}
-
-{% block activestudent %}active{% endblock %}
-
-{% block body %}
-    <div class="jumbotron bg-light">
+{% endblock %} {% block title%}Students{% endblock %} {% block activestudent %}active{% endblock %} {% block body %}
+<div class="jumbotron bg-light">
     <div class="row">
         <div class="col col-lg-12">
             <a class="btn btn-dark" href="{% url 'student:student-add' %}" role="button">Add Student</a>
@@ -35,17 +22,19 @@
                         </thead>
                         <tbody>
                             {% for stu in object_list %}
-                                <tr>
-                                    <td><a class="studentID" href="{% url 'student:detail' stu.pk %}" target="_blank">{{ stu.pk }}</a></td>
-                                    <td>{{ stu.first_name }}</td>
-                                    <td>{{ stu.last_name }}</td>
-                                    <td>{{ stu.age }}</td>
-                                    <td>{{ stu.guardian }}</td>
-                                    <td style="padding: 0px">
-                                        <a class="btn btn-dark click float-right" href="{% url 'student:student-update' stu.id %}" role="button">Update</a>
-                                        <a class="btn btn-dark click float-right" href="{% url 'student:student-delete' stu.id %}" role="button">Delete</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    <a class="studentID" href="{% url 'student:detail' stu.pk %}" target="_blank">{{ stu.pk }}</a>
+                                </td>
+                                <td>{{ stu.first_name }}</td>
+                                <td>{{ stu.last_name }}</td>
+                                <td>{{ stu.age }}</td>
+                                <td>{{ stu.guardian }}</td>
+                                <td style="padding: 0px">
+                                    <a class="btn btn-dark click float-right" href="{% url 'student:student-update' stu.id %}" role="button">Update</a>
+                                    <a class="btn btn-dark click float-right" href="{% url 'student:student-delete' stu.id %}" role="button">Delete</a>
+                                </td>
+                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -53,6 +42,6 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
 {% endblock %}

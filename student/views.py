@@ -10,6 +10,13 @@ def index(request):
     instructor = Instructor.objects.get(id=1)
     return render(request, 'student/index.html', context={'instructor': instructor})
 
+# Instructor Page
+class InstructorIndexView(generic.ListView):
+    template_name = 'student/instructor.html'
+
+    def get_queryset(self):
+        return Instructor.objects.all()
+        
 # Student Index Page
 class StudentIndexView(generic.ListView):
     template_name = 'student/student.html'
@@ -50,12 +57,18 @@ class StudentDelete(DeleteView):
         return self.post(request, *args, **kwargs)
 
 # Batch Information Pages
-def batch(request):
-    batches = Batch.objects.all()
-    context = {
-        'batches': batches,
-        }
-    return render(request, 'student/batch.html', context)
+# def batch(request):
+#     batches = Batch.objects.all()
+#     context = {
+#         'batches': batches,
+#         }
+#     return render(request, 'student/batch.html', context)
+
+class BatchIndexView(generic.ListView):
+    template_name = 'student/batch.html'
+
+    def get_queryset(self):
+        return Batch.objects.all()
 
 # Students in given Batch
 def batchstudent(request, pk):
@@ -64,7 +77,7 @@ def batchstudent(request, pk):
     for enroll in enrolls:
         students.append(enroll.student)
     return render(request, 'student/student.html', { 'object_list': students })
-
+    
 # Add Attendance
 def StudentAddAttendance(request, pk):
     enrolls = Enrollment.objects.filter(batch=pk)

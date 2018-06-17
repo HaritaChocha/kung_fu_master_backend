@@ -22,9 +22,9 @@
     <!--Navigation-->
     <nav class="navbar navbar-dark bg-dark navbar-expand-sm m-0">
         <div class="container-fluid">
-            <a class="navbar-brand text-light" href="#">Xia School of Martial Arts</a>
+            <a class="navbar-brand text-light" href="{% url 'student:index' %}">Xia School of Martial Arts</a>
             <div class="navbar-nav">
-                <a class="nav-item nav-link {% block activehome %}{% endblock %}" href="{% url 'student:index' %}">Home</a>
+                <a class="nav-item nav-link {% block activeinstructor %}{% endblock %}" href="{% url 'student:instructor' %}">Instructor</a>
                 <a class="nav-item nav-link {% block activestudent %}{% endblock %}" href="{% url 'student:student' %}">Student</a>
                 <a class="nav-item nav-link {% block activebatches %}{% endblock %}" href="{% url 'student:batch' %}">Batches</a>
                 <a class="nav-item nav-link {% block activefinance %}{% endblock %}" href="{% url 'student:finance' %}">Finance</a>
@@ -34,6 +34,12 @@
     </nav>
 
     {% block body %} {% endblock %}
+
+    <footer class="page-footer font-small bg-dark">
+        <div class="footer-copyright text-center py-3">
+            © Copyright by Tarang, Harita and Jenith
+        </div>
+    </footer>
 
     <!-- Optional JavaScript -->
     {% block javascript %}{% endblock %}

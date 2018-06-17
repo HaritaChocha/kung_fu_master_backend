@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
-from .models import Instructor, Student, Attendance, Progress, Fee, Batch, Enrollment
+from .models import Instructor, Student, Attendance, Progress, Fee, Batch, Enrollment, Guardian
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from datetime import datetime
+from .form import *
 
 # Index Page
 def index(request):
@@ -43,11 +44,13 @@ def studentdetail(request, pk):
 # Student Update Pages
 class StudentCreate(CreateView):
     model = Student
-    fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank']
+    fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank',
+              'guardian']
 
 class StudentUpdate(UpdateView):
     model = Student
-    fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank']
+    fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank',
+              'guardian']
 
 class StudentDelete(DeleteView):
     model = Student
@@ -56,7 +59,37 @@ class StudentDelete(DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
-# Batch Information Pages
+# def guardian_create(request, pk):
+#     form = GuardianForm(request.POST or None, request.FILES or None)
+#     student = get_object_or_404(Student, pk=pk)
+#     if form.is_valid():
+#         # guardian = Student.guardian.all()
+#         # for s in guardian:
+#         #     if s.first_name == form.cleaned_data.get("first_name"):
+#         #         context = {
+#         #             'student': student,
+#         #             'form': form,
+#         #             'error_message': 'You already added that song',
+#         #         }
+#         #         return render(request, 'student/guardian_form.html', context)
+#         guardian = form.save(commit=False)
+#         student.guardian = guardian
+#         guardian.save()
+#         student.update()
+#
+#         return render(request, 'student/detail.html', {'stu': student})
+#
+#     context = {
+#         'stu': student,
+#         'form': form,
+#     }
+#     return render(request, 'student/guardian_form.html', context)
+
+class GuardianCreate(CreateView):
+    model = Guardian
+    fields = ['first_name', 'last_name', 'address', 'city', 'phone_number', 'relation']
+
+#Batch Information Pages
 # def batch(request):
 #     batches = Batch.objects.all()
 #     context = {
@@ -69,6 +102,21 @@ class BatchIndexView(generic.ListView):
 
     def get_queryset(self):
         return Batch.objects.all()
+
+class BatchCreate(CreateView):
+    model = Batch
+    fields = ['batch_day', 'batch_start_time', 'batch_end_time', 'level', 'instructor']
+
+class BatchUpdate(UpdateView):
+    model = Batch
+    fields = ['batch_day', 'batch_start_time', 'batch_end_time', 'level', 'instructor']
+
+class BatchDelete(DeleteView):
+    model = Batch
+    success_url = reverse_lazy('student:batch')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
 # Students in given Batch
 def batchstudent(request, pk):
@@ -98,6 +146,24 @@ def StudentAddAttendance(request, pk):
     return render(request, reverse_lazy('student:batch'), {'count': len(student_id)})
 
 # Finance Page
-def finance(request):
-    all_fees = Fee.objects.all().order_by('student')
-    return render(request, 'student/finance.html', {'all_fees': all_fees})
+class FinanceIndexView(generic.ListView):
+    template_name = 'student/finance.html'
+
+    def get_queryset(self):
+        return Fee.objects.all()
+
+class FinanceCreate(CreateView):
+    model = Fee
+    fields = ['fee_name', 'fee_date', 'fee_amount', 'student']
+
+class FinanceUpdate(UpdateView):
+    model = Fee
+    fields = ['fee_name', 'fee_date', 'fee_amount', 'student']
+
+
+class FinanceDelete(DeleteView):
+    model = Fee
+    success_url = reverse_lazy('student:finance')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)

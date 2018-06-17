@@ -86,6 +86,8 @@ class Guardian(models.Model):
     def __str__(self):
         return self.first_name + " " + self.last_name
 
+    def get_absolute_url(self):
+        return reverse('student:student')
 
 class Rank(models.Model):
     rank_color = models.CharField(max_length=20, choices=BELT_COLOR)
@@ -131,6 +133,9 @@ class Fee(models.Model):
     fee_date = models.DateField(default=timezone.now)
     fee_amount = models.IntegerField()
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='pays')
+
+    def get_absolute_url(self):
+        return reverse('student:finance')
 
 class Progress(models.Model):
     progress_belt_from = models.CharField(max_length=50, choices=BELT_COLOR, default='White')

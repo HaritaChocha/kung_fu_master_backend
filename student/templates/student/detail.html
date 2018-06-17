@@ -1,8 +1,20 @@
-{% extends 'student/base.html' %} {% load staticfiles %} {% block css %}
-<link rel="stylesheet" href="{% static 'student\detail.css' %}"> {% endblock %} {% block javascript %}
-<script src="{% static 'js\smoothScroll.js' %}"></script>
-{% endblock %} {% block title%}{{ stu }}{% endblock %} {% block activestudent %}active{% endblock %} {% block body %}
+{% extends 'student/base.html' %}
 
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'student\detail.css' %}">
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js\smoothScroll.js' %}"></script>
+{% endblock %}
+
+{% block title%}{{ stu }}{% endblock %}
+
+{% block activestudent %}active{% endblock %}
+
+{% block body %}
 <body>
 	<div class="container-fluid">
 		<div class="m-4">
@@ -14,11 +26,9 @@
 					<li class="sliding-u-l-r-l">
 						<a href="#Information">General Information</a>
 					</li>
-					{% if guardian %}
 					<li class="sliding-u-l-r-l">
 						<a href="#Contact">Emergency Contact</a>
 					</li>
-					{% endif %}
 					<li class="sliding-u-l-r-l">
 						<a href="#Attendance">Attendance</a>
 					</li>
@@ -61,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					{% if guardian %}
+
 					<div class="col-md-6" id="Contact">
 						<div class="card">
 							<div class="card-header">
@@ -69,6 +79,7 @@
 								Emergency Contact
 							</div>
 							<div class="card-body">
+								{% if guardian %}
 								<ul class="list-group list-group-flush">
 									<li class="list-group-item">
 										<span style="font-weight:bold">Name</span>: {{ guardian }}</li>
@@ -85,10 +96,13 @@
 										<span style="font-weight:bold">Relation</span>:{{ guardian.relation }}</li>
 									</li>
 								</ul>
+								{% else %}
+								<p> There is no Emergency Contact Added. Please <a href="{% url 'student:student-guardian' stu.pk %}">Cick here</a> to add </p>
+								{% endif %}
 							</div>
 						</div>
 					</div>
-					{% endif %}
+
 					<div class="col-md-12 margin-top-20" id="Attendance">
 						<div class="card">
 							<div class="card-header">
@@ -97,6 +111,7 @@
 							</div>
 							<div class="card-body">
 								<table class="table table-responsive-sm table-striped table-condensed sortable">
+									{% if attend %}
 									<thead>
 										<tr>
 											<th align="center">Month</th>
@@ -113,6 +128,9 @@
 										</tr>
 										{% endfor %}
 									</tbody>
+									{% else %}
+									<p> There is no Attendance Added. Please <a href="#">Cick here</a> to add </p>
+									{% endif%}
 								</table>
 							</div>
 						</div>
@@ -125,6 +143,7 @@
 							</div>
 							<div class="card-body">
 								<table class="table table-responsive-sm table-striped table-condensed sortable">
+									{% if progress %}
 									<thead>
 										<tr>
 											<th align="center">From Belt</th>
@@ -141,6 +160,9 @@
 										</tr>
 										{% endfor %}
 									</tbody>
+									{% else %}
+									<p> There is no Progress Report Added. Please <a href="#">Cick here</a> to add </p>
+									{% endif%}
 								</table>
 							</div>
 						</div>
@@ -153,6 +175,7 @@
 							</div>
 							<div class="card-body">
 								<table class="table table-responsive-sm table-striped table-condensed sortable">
+									{% if fee %}
 									<thead>
 										<tr>
 											<th align="center">Payment Type</th>
@@ -169,6 +192,9 @@
 										</tr>
 										{% endfor %}
 									</tbody>
+									{% else %}
+									<p> There is no Fees Added. Please <a href="#">Cick here</a> to add </p>
+									{% endif%}
 								</table>
 							</div>
 						</div>

@@ -15,44 +15,35 @@
 {% block activefinance %}active{% endblock %} 
 
 {% block body%}
-<body>
-    <div>
-        <div class="m-4">
-            <h1>Finance</h1>
-        </div>
-        <div class="wrapper">
-            <div class="left-col">
-                <ul class="side-menu-items">
-                    <li class="sliding-u-l-r-l">
-                        <a href="#Information">Total Payments</a>
-                    </li>
-                    <li class="sliding-u-l-r-l">
-                        <a href="#Attendance">Pending Payments</a>
-                    </li>
-                    <li class="sliding-u-l-r-l">
-                        <a href="#Progress">Sales Report</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="main-col">
-                <div class="" id="Total_Payment">
-                    <h1>All Payments</h1>
+<div class="jumbotron bg-light">
+    <div class="row">
+        <div class="col col-lg-12">
+            <a class="btn btn-dark" href="{% url 'student:finance-add' %}" role="button">Add Fee</a>
+            <div style="margin-top:1em" class="card">
+                <div class="card-header text-dark table-heading">Fees</div>
+                <div class="card-body panel-full">
                     <table class="table table-responsive-sm table-striped table-condensed sortable">
                         <thead>
                             <tr>
+                                <th align="center">Transaction ID</th>
                                 <th align="center">Student</th>
-                                <th align="center">Fee Type</th>
-                                <th align="center">Fee Date</th>
-                                <th align="center">Total Amount($)</th>
+                                <th align="center">Fee Name</th>
+                                <th align="center">Date</th>
+                                <th align="center">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for fee in all_fees %}
+                            {% for fee in object_list %}
                             <tr>
+                                <td>{{ fee.pk }}</td>
                                 <td>{{ fee.student }}</td>
                                 <td>{{ fee.fee_name }}</td>
                                 <td>{{ fee.fee_date }}</td>
                                 <td>{{ fee.fee_amount }}</td>
+                                <td style="padding: 0px">
+                                    <a class="btn btn-dark click float-right" href="{% url 'student:finance-update' fee.pk %}" role="button">Update</a>
+                                    <a class="btn btn-dark click float-right" href="{% url 'student:finance-delete' fee.pk %}" role="button">Delete</a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -61,5 +52,5 @@
             </div>
         </div>
     </div>
-</body>
+</div>
 {% endblock %}

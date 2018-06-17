@@ -6,10 +6,10 @@
 
 <body>
   <div>
-    <a class="btn btn-dark click" href="#" role="button">Add Batch</a>
+    <a class="btn btn-dark click" href="{% url 'student:batch-add' %}" role="button">Add Batch</a>
   </div>
   <div class="row">
-    {% for batch in batches %}
+    {% for batch in object_list %}
     <div class="col-sm-6 col-lg-3 col-md-4">
       <div class="card">
         <div class="card-body">
@@ -21,8 +21,8 @@
           <div class="label">Batch End Time</div> :
           <div class="field">{{ batch.batch_end_time }}</div>
           <a href="{% url 'student:batch_student' batch.pk %}" class="btn btn-dark">Students</a>
-          <a href="#" class="btn btn-dark">Update</a>
-          <a href="#" class="btn btn-dark">Delete</a>
+          <a href="{% url 'student:batch-update' batch.pk %}" class="btn btn-dark">Update</a>
+          <a href="{% url 'student:batch-delete' batch.pk %}" class="btn btn-dark">Delete</a>
         </div>
       </div>
     </div>

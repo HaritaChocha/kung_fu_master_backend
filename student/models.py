@@ -69,7 +69,7 @@ class Instructor(models.Model):
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
 
     def address(self):
-        return self.street_name + " " + self.city + " " + self.province
+        return self.street_name + ", " + self.city + ", " + self.province
 
     def __str__(self):
         return self.last_name

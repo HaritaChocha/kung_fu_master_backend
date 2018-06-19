@@ -65,6 +65,8 @@ def student_create(request):
                 student.guardian = guardian
             student = stu_form.save(commit=False)
             stu_form.save()
+            progress = Progress.objects.create(progress_belt_to=student.rank, student=student)
+            progress.save()
             enrollment = en_form.save(commit=False)
             enrollment.student = student
             en_form.save()

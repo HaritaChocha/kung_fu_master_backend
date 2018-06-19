@@ -15,7 +15,7 @@
 {% block activeinstructor %}active{% endblock %} 
 
 {% block body %}
-<div class="jumbotron bg-light" style="min-height:700px">
+<div class="jumbotron bg-light"  style="margin-top:12px; margin-bottom:70px;">
     <div class="row">
         <div class="col col-lg-12">
             <div style="margin-top:1em" class="card">
@@ -28,6 +28,7 @@
                                 <th align="center">First Name</th>
                                 <th align="center">Last Name</th>
                                 <th align="center">Address</th>
+                                <th align="center">Postal Code</th>
                                 <th align="center">City</th>
                                 <th align="center">Email ID</th>
                                 <th align="center">Phone Number</th>
@@ -41,6 +42,7 @@
                                 <td>{{ ins.first_name }}</td>
                                 <td>{{ ins.last_name }}</td>
                                 <td>{{ ins.address }}</td>
+                                <td>{{ ins.postal_code }}</td>
                                 <td>{{ ins.city }}</td>
                                 <td>{{ ins.email_ID }}</td>
                                 <td>{{ ins.phone_number }}</td>

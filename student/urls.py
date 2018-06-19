@@ -44,4 +44,9 @@ urlpatterns = [
     path('finance/update/<pk>', views.FinanceUpdate.as_view(), name='finance-update'),
     path('finance/delete/<pk>', views.FinanceDelete.as_view(), name='finance-delete'),
 
+    # Report Page
+    path('report/', views.monthly_report, name='report'),
+
+    # Progess Page
+    path('progress/add/<pk>', views.progress_add, name="progress"),
 ]

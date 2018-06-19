@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.views import generic
 from .models import Instructor, Student, Attendance, Progress, Fee, Batch, Enrollment, Guardian
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from datetime import datetime
+from django.db.models import Sum
+
 from .form import *
 
 # Index Page
@@ -42,10 +45,10 @@ def studentdetail(request, pk):
     return render(request, 'student/detail.html', context)
 
 # Student Update Pages
-class StudentCreate(CreateView):
-    model = Student
-    fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank',
-              'guardian']
+# class StudentCreate(CreateView):
+#     model = Student
+#     fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank',
+#               'guardian']
 
 def student_create(request):
     if request.POST:
@@ -53,12 +56,12 @@ def student_create(request):
         en_form = EnrollmentForm(request.POST or None)
         guardian_form = GuardianForm(request.POST or None, prefix="guardian")
         if stu_form.is_valid() and en_form.is_valid() and guardian_form.is_valid():
-            guardian = guardian_form.save()
+            if guardian_form.has_changed():
+                guardian = guardian_form.save()
+                student = stu_form.save(commit=False)
+                student.guardian = guardian
             student = stu_form.save(commit=False)
-            student.guardian = guardian
-            #stu_form.cleaned_data["guardian"] = guardian
             stu_form.save()
-            #en_form.cleaned_data["student"] = student
             enrollment = en_form.save(commit=False)
             enrollment.student = student
             en_form.save()
@@ -72,8 +75,7 @@ def student_create(request):
 
 class StudentUpdate(UpdateView):
     model = Student
-    fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank',
-              'guardian']
+    fields = ['first_name', 'last_name', 'street_name', 'city', 'province', 'postal_code', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank',]
 
 class StudentDelete(DeleteView):
     model = Student
@@ -118,9 +120,27 @@ def guardian_create(request, pk):
         guardian_form = GuardianForm(request.POST or None, prefix="guardian")
         return render(request, 'student/student_form.html', {"form": guardian_form})
 
+def progress_add(request, pk):
+    if request.POST:
+        progress_form = ProgressForm(request.POST or None, prefix="progress")
+        student = Student.objects.get(pk=pk)
+        if progress_form.is_valid():
+            progress = progress_form.save(commit=False)
+            progress.student = student
+            student.rank = progress.progress_belt_to
+            progress.save()
+            student.save(force_update=True)
+            stu = Student.objects.all()
+            return render(request, 'student/student.html', {"object_list": stu})
+            #return reverse('student:detail', args=[pk])
+    else:
+        progress_form = ProgressForm(request.POST or None, prefix="progress")
+        return render(request, 'student/progress_form.html', {"form": progress_form})
+
+
 class GuardianCreate(CreateView):
     model = Guardian
-    fields = ['first_name', 'last_name', 'address', 'city', 'phone_number', 'relation']
+    fields = ['first_name', 'last_name', 'street_name', 'city', 'province', 'postal_code', 'phone_number', 'relation']
 
 #Batch Information Pages
 class BatchIndexView(generic.ListView):
@@ -197,4 +217,17 @@ class FinanceDelete(DeleteView):
         return self.post(request, *args, **kwargs)
 
 def monthly_report(request):
-    pass
+
+    def get_month(self, date):
+        return date.strftime("%B")
+
+    fee = Fee.objects.raw("SELECT 1 as id, strftime('%m',fee_date)  as month, SUM(fee_amount) as amount FROM student_fee GROUP BY month")
+    #fee = Fee.objects.raw("SELECT fee_date.month AS fee_month, SUM(fee_amount) AS amount FROM student_fee GROUP BY fee_month")
+    #fee = Fee.objects.raw('SELECT EXTRACT(MONTH FROM "2017-05-04") AS month')
+
+    #fee = Fee.objects.values('fee_date').aggregate(amount=Sum('fee_amount'))
+
+    return render(request, 'student/report.html', {'report': fee})
+
+
+

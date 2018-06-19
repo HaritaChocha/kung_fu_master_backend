@@ -16,6 +16,7 @@
                     </div>
                 </form>
             </div>
+            {% if object_list %}
             <div style="margin-top:1em" class="card">
                 <div class="card-header text-dark table-heading">Students</div>
                 <div class="card-body panel-full">
@@ -35,7 +36,7 @@
                             {% for stu in object_list %}
                             <tr class="text-center">
                                 <td>
-                                    <a class="studentID" href="{% url 'student:detail' stu.pk %}" target="_blank">{{ stu.pk }}</a>
+                                    <a class="studentID" href="{% url 'student:detail' stu.pk %}">{{ stu.pk }}</a>
                                 </td>
                                 <td>{{ stu.first_name }}</td>
                                 <td>{{ stu.last_name }}</td>
@@ -55,6 +56,9 @@
                     </table>
                 </div>
             </div>
+            {% else %}
+                <p> 0 Students Found </p>
+            {% endif %}
         </div>
     </div>
 </div>

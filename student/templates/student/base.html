@@ -26,6 +26,7 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link {% block activeinstructor %}{% endblock %}" href="{% url 'student:instructor' %}">Instructor</a>
                 <a class="nav-item nav-link {% block activestudent %}{% endblock %}" href="{% url 'student:student' %}">Student</a>
+                <a class="nav-item nav-link {% block activeenroll %}{% endblock %}" href="{% url 'student:enroll' %}">Enrollments</a>
                 <a class="nav-item nav-link {% block activebatches %}{% endblock %}" href="{% url 'student:batch' %}">Batches</a>
                 <a class="nav-item nav-link {% block activeattend %}{% endblock %}" href="{% url 'student:attend' %}">Attendance</a>
                 <a class="nav-item nav-link {% block activefinance %}{% endblock %}" href="{% url 'student:finance' %}">Finance</a>
@@ -33,16 +34,17 @@
         </div>
     </nav>
 
+    <div>
     {% block body %} {% endblock %}
-
-    <footer class="page-footer font-small bg-dark">
-        <div class="footer-copyright text-center py-3">
+    </div>
+    <footer class="page-footer font-small bg-dark" style="height: 60px">
+        <div class="footer-copyright text-center py-3 text-white">
             © Copyright by Tarang, Harita and Jenith
         </div>
     </footer>
 
     <!-- Optional JavaScript -->
-    {% block javascript %}{% endblock %}
+
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -53,7 +55,7 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-
+{% block javascript %}{% endblock %}
 </body>
 
 </html>

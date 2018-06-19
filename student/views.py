@@ -47,6 +47,29 @@ class StudentCreate(CreateView):
     fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank',
               'guardian']
 
+def student_create(request):
+    if request.POST:
+        stu_form = StudentForm(request.POST or None, prefix="student")
+        en_form = EnrollmentForm(request.POST or None)
+        guardian_form = GuardianForm(request.POST or None, prefix="guardian")
+        if stu_form.is_valid() and en_form.is_valid() and guardian_form.is_valid():
+            guardian = guardian_form.save()
+            student = stu_form.save(commit=False)
+            student.guardian = guardian
+            #stu_form.cleaned_data["guardian"] = guardian
+            stu_form.save()
+            #en_form.cleaned_data["student"] = student
+            enrollment = en_form.save(commit=False)
+            enrollment.student = student
+            en_form.save()
+            stu = Student.objects.all()
+            return render(request, 'student/student.html', {'object_list': stu})
+    else:
+        stu_form = StudentForm(request.POST or None, prefix="student")
+        en_form = EnrollmentForm(request.POST or None)
+        guardian_form = GuardianForm(request.POST or None, prefix="guardian")
+        return render(request, 'student/student_form.html', {"form": stu_form, "form1": en_form, "form2": guardian_form})
+
 class StudentUpdate(UpdateView):
     model = Student
     fields = ['first_name', 'last_name', 'address', 'city', 'date_of_birth', 'date_of_joining', 'phone_number', 'rank',
@@ -59,31 +82,41 @@ class StudentDelete(DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
-# def guardian_create(request, pk):
-#     form = GuardianForm(request.POST or None, request.FILES or None)
-#     student = get_object_or_404(Student, pk=pk)
-#     if form.is_valid():
-#         # guardian = Student.guardian.all()
-#         # for s in guardian:
-#         #     if s.first_name == form.cleaned_data.get("first_name"):
-#         #         context = {
-#         #             'student': student,
-#         #             'form': form,
-#         #             'error_message': 'You already added that song',
-#         #         }
-#         #         return render(request, 'student/guardian_form.html', context)
-#         guardian = form.save(commit=False)
-#         student.guardian = guardian
-#         guardian.save()
-#         student.update()
-#
-#         return render(request, 'student/detail.html', {'stu': student})
-#
-#     context = {
-#         'stu': student,
-#         'form': form,
-#     }
-#     return render(request, 'student/guardian_form.html', context)
+# Enrollments
+class EnrollIndexView(generic.ListView):
+    template_name = 'student/enroll.html'
+
+    def get_queryset(self):
+        return Enrollment.objects.all()
+
+class EnrollCreate(CreateView):
+    model = Enrollment
+    fields = ['batch', 'student']
+
+class EnrollUpdate(UpdateView):
+    model = Enrollment
+    fields = ['batch', 'student']
+
+class EnrollDelete(DeleteView):
+    model = Enrollment
+    success_url = reverse_lazy('student:enroll')
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+def guardian_create(request, pk):
+    if request.POST:
+        guardian_form = GuardianForm(request.POST or None, prefix="guardian")
+        student = Student.objects.get(pk=pk)
+        if guardian_form.is_valid():
+            guardian = guardian_form.save()
+            student.guardian = guardian
+            student.save(force_update=True)
+            stu = Student.objects.get(pk=pk)
+            return render(request, 'student/student.html', {"object_list": stu})
+    else:
+        guardian_form = GuardianForm(request.POST or None, prefix="guardian")
+        return render(request, 'student/student_form.html', {"form": guardian_form})
 
 class GuardianCreate(CreateView):
     model = Guardian

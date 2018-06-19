@@ -2,8 +2,8 @@
 
 {% load staticfiles%}
 
-{% block title %}Add Attendance{% endblock %}
-{% block activeattend %}active{% endblock %}
+{% block title %}Add Enrollment{% endblock %}
+{% block activeenroll %}active{% endblock %}
 
 {% block css %}
     <style>
@@ -31,13 +31,14 @@
     </script>
 {%endblock%}
 
+
 {% block body %}
 <div class="container-fluid bg-light" style="margin-top:12px;margin-bottom: 12px">
     <div class="row justify-content-center">
         <div class="col-md-6 col-md-offset-2">
             <div class="card">
                 <div class="card-body">
-                    <h3>Add New Attendance</h3>
+                    <h3>Add New Enrollment</h3>
                     <hr>
                     <div class="form-group" style="margin-top:24px">
                         {% if error_message %}

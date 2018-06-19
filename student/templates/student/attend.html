@@ -15,26 +15,41 @@
     <div class="row">
         <div class="col col-lg-12">
             <a class="btn btn-dark" href="{% url 'student:attend-add' %}" role="button">Add Attendance</a>
+            <div class="form-group float-right">
+                <form onsubmit="">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <i class="fa fa-search input-group-text" style="padding-top:10px;"></i>
+                        </div>
+                        <input class="form-control" type="text" name="keywords" placeholder="Name or Date"/>
+                    </div>
+                </form>
+            </div>
             <div style="margin-top:1em" class="card">
                 <div class="card-header text-dark table-heading">Attendance</div>
                 <div class="card-body panel-full">
                     <table class="table table-responsive-sm table-striped table-condensed sortable">
                         <thead>
-                            <tr>
+                            <tr class="text-center">
                                 <th align="center">Student</th>
                                 <th align="center">Attendance Date</th>
                                 <th align="center">Attendance Count</th>
+                                <th align="center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for attend in object_list %}
-                            <tr>
+                            <tr class="text-center">
                                 <td>{{ attend.student }}</td>
                                 <td>{{ attend.attendance_date }}</td>
                                 <td>{{ attend.attendance_count }}</td>
                                 <td style="padding: 0px">
-                                    <a class="btn btn-dark click float-right" href="{% url 'student:attend-update' attend.pk %}" role="button">Update</a>
-                                    <a class="btn btn-dark click float-right" href="{% url 'student:attend-delete' attend.pk %}" role="button">Delete</a>
+                                    <a class="btn btn-info click" style="display:'inline-block'" href="{% url 'student:attend-update' attend.id %}" role="button">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-danger click" href="{% url 'student:attend-delete' attend.id %}" role="button">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}

@@ -16,12 +16,17 @@
         <div class="col col-lg-12">
             <a class="btn btn-dark" href="{% url 'student:attend-add' %}" role="button">Add Attendance</a>
             <div class="form-group float-right">
-                <form onsubmit="">
+                <form action="{% url 'student:attend-search' %}" method="GET" accept-charset="utf-8">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <i class="fa fa-search input-group-text" style="padding-top:10px;"></i>
                         </div>
-                        <input class="form-control" type="text" name="keywords" placeholder="Name or Date"/>
+                        <input
+                                class="form-control"
+                                type="text" name="q"
+                                value="{{request.GET.q}}"
+                                placeholder="Search by Name or Date(YYYY-MM-DD)"
+                                style="width:500px;"/>
                     </div>
                 </form>
             </div>

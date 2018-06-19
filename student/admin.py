@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import *
 from django.apps import apps
 
-
 # Register your models here.
 app = apps.get_app_config('student')
+
 for model_name, model in app.models.items():
     model_admin = type(model_name + "Admin", (admin.ModelAdmin,), {})
 
@@ -18,3 +18,6 @@ for model_name, model in app.models.items():
     model_admin.search_fields = model.admin_search_fields if hasattr(model, 'admin_search_fields') else ()
 
     admin.site.register(model, model_admin)
+
+class MyModelAdmin(admin.ModelAdmin):
+    search_fields = ('batch__batch_day', 'student__first_name', 'guardian__first_name')

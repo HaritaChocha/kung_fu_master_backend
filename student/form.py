@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from .models import Student, Guardian, Enrollment, Progress
+from .models import Student, Guardian, Enrollment, Progress, Batch
 
 class StudentForm(forms.ModelForm):
 
@@ -39,3 +39,9 @@ class ProgressForm(forms.ModelForm):
     class Meta:
         model = Progress
         fields = ['progress_belt_from', 'progress_belt_to', 'progress_date']
+
+class BatchForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(BatchForm, self).__init__(*args, **kwargs)
+        self.fields['batch_start_time'].widget.attrs['placeholder'] = 'HH:MM'
+        self.fields['batch_end_time'].widget.attrs['placeholder'] = 'HH:MM'

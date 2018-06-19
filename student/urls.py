@@ -49,4 +49,10 @@ urlpatterns = [
 
     # Progess Page
     path('progress/add/<pk>', views.progress_add, name="progress"),
+
+    # Search Pages
+    path('studentsearch/', views.student_search, name="student-search"),
+    path('enrollsearch/', views.enroll_search, name="enroll-search"),
+    path('attendancesearch/', views.attendance_search, name="attend-search"),
+    path('financesearch/', views.finance_search, name="finance-search"),
 ]

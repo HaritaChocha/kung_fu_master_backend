@@ -21,12 +21,17 @@
             <a class="btn btn-dark" href="{% url 'student:finance-add' %}" role="button">Add Fee</a>
             <a class="btn btn-dark" href="{% url 'student:report' %}" role="button" style="margin-left:10px;">Report</a>
             <div class="form-group float-right">
-                <form onsubmit="">
+                <form action="{% url 'student:finance-search' %}" method="GET" accept-charset="utf-8">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <i class="fa fa-search input-group-text" style="padding-top:10px;"></i>
                         </div>
-                        <input class="form-control" type="text" name="keywords" placeholder="First Name or Last Name"/>
+                        <input
+                                class="form-control"
+                                type="text" name="q"
+                                value="{{request.GET.q}}"
+                                placeholder="Search by Name or Date(YYYY-MM-DD)"
+                                style="width:500px;"/>
                     </div>
                 </form>
             </div>

@@ -177,8 +177,8 @@ class Attendance(models.Model):
         return reverse('student:attend')
 
 class Enrollment(models.Model):
-    batch = models.ForeignKey(Batch, on_delete=models.CASCADE, related_name='batches', default=1)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='students', default=1)
+    batch = models.ForeignKey(Batch, on_delete=models.CASCADE, default=1)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.batch.__str__() + " " + self.student.__str__()

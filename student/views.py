@@ -4,6 +4,9 @@ from django.views import generic
 from .models import Instructor, Student, Attendance, Progress, Fee, Batch, Enrollment, Guardian
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.db.models import Q
+from functools import reduce
+
 from datetime import datetime
 from django.db.models import Sum
 
@@ -84,6 +87,23 @@ class StudentDelete(DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
+def student_search(request):
+    template = 'student/student.html'
+
+    query = request.GET.get('q')
+
+    results = Student.objects.filter(Q(pk__icontains=query) |
+                                     Q(first_name__icontains=query) |
+                                     Q(last_name__icontains=query) |
+                                     Q(guardian__first_name__icontains=query) |
+                                     Q(guardian__last_name__icontains=query))
+
+    context = {
+        'object_list': results
+    }
+
+    return render(request, template, context)
+
 # Enrollments
 class EnrollIndexView(generic.ListView):
     template_name = 'student/enroll.html'
@@ -93,11 +113,11 @@ class EnrollIndexView(generic.ListView):
 
 class EnrollCreate(CreateView):
     model = Enrollment
-    fields = ['batch', 'student']
+    fields = ['student', 'batch']
 
 class EnrollUpdate(UpdateView):
     model = Enrollment
-    fields = ['batch', 'student']
+    fields = ['student', 'batch']
 
 class EnrollDelete(DeleteView):
     model = Enrollment
@@ -105,6 +125,22 @@ class EnrollDelete(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
+
+def enroll_search(request):
+    template = 'student/enroll.html'
+
+    query = request.GET.get('q')
+
+    results = Enrollment.objects.filter(Q(batch__batch_day__icontains=query) |
+                                        Q(student__first_name__icontains=query) |
+                                        Q(student__last_name__icontains=query) |
+                                        Q(batch__level__level_name__icontains=query))
+
+    context = {
+        'object_list': results
+    }
+
+    return render(request, template, context)
 
 def guardian_create(request, pk):
     if request.POST:
@@ -194,6 +230,21 @@ class AttendanceDelete(DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
+def attendance_search(request):
+    template = 'student/attend.html'
+
+    query = request.GET.get('q')
+
+    results = Attendance.objects.filter(Q(attendance_date__icontains=query) |
+                                        Q(student__first_name__icontains=query) |
+                                        Q(student__last_name__icontains=query))
+
+    context = {
+        'object_list': results
+    }
+
+    return render(request, template, context)
+
 # Finance Page
 class FinanceIndexView(generic.ListView):
     template_name = 'student/finance.html'
@@ -218,16 +269,41 @@ class FinanceDelete(DeleteView):
 
 def monthly_report(request):
 
-    def get_month(self, date):
-        return date.strftime("%B")
+    query = """SELECT 1 as id,  
+                CASE strftime('%m',fee_date) WHEN '01' then 'January' 
+                                            when '02' then 'Febuary' 
+                                            when '03' then 'March' 
+                                            when '04' then 'April' 
+                                            when '05' then 'May' 
+                                            when '06' then 'June' 
+                                            when '07' then 'July' 
+                                            when '08' then 'August' 
+                                            when '09' then 'September' 
+                                            when '10' then 'October' 
+                                            when '11' then 'November' 
+                                            when '12' then 'December' END AS month,
+                SUM(fee_amount) as amount 
+                FROM student_fee 
+                GROUP BY month"""
 
-    fee = Fee.objects.raw("SELECT 1 as id, strftime('%m',fee_date)  as month, SUM(fee_amount) as amount FROM student_fee GROUP BY month")
-    #fee = Fee.objects.raw("SELECT fee_date.month AS fee_month, SUM(fee_amount) AS amount FROM student_fee GROUP BY fee_month")
-    #fee = Fee.objects.raw('SELECT EXTRACT(MONTH FROM "2017-05-04") AS month')
-
-    #fee = Fee.objects.values('fee_date').aggregate(amount=Sum('fee_amount'))
+    fee = Fee.objects.raw(query)
 
     return render(request, 'student/report.html', {'report': fee})
 
+def finance_search(request):
+    template = 'student/finance.html'
 
+    query = request.GET.get('q')
+
+    results = Fee.objects.filter(Q(fee_name__icontains=query) |
+                                Q(fee_date__icontains=query) |
+                                Q(fee_amount__icontains=query) |
+                                Q(student__first_name__icontains=query) |
+                                Q(student__last_name__icontains=query))
+
+    context = {
+        'object_list': results
+    }
+
+    return render(request, template, context)
 
